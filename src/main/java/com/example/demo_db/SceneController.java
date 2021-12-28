@@ -37,7 +37,7 @@ public class SceneController {
 
     @FXML
     protected void SwitchToNotificationPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NotificationPage.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notification-page.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -53,4 +53,12 @@ public class SceneController {
         stage.show();
     }
 
+    @FXML
+    protected void SwitchToMain(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home-page.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

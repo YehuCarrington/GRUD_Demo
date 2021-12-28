@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class SearchPageController {
+public class SearchPageController extends SceneController {
     @FXML
     protected Button searchButton;
 
@@ -20,16 +20,7 @@ public class SearchPageController {
     protected Button backButton;
 
     @FXML
-    protected void SwitchToMain(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home-page.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    protected void SearchDB(ActionEvent event) throws IOException {
+    private void SearchDB(ActionEvent event) throws IOException {
         System.out.println("event = " + event);
     }
 }
