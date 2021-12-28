@@ -2,22 +2,13 @@ package com.example.demo_db;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class SearchPageController extends SceneController {
-    @FXML
-    protected Button searchButton;
-
-    @FXML
-    protected Button backButton;
+    @FXML private Button searchButton;
+    @FXML private Button backButton;
 
     @FXML
     private void SearchDB(ActionEvent event) throws IOException {

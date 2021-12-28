@@ -5,11 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class NotificationPageController extends SceneController {
-    @FXML
-    protected Button sendNotificationButton;
-
-    @FXML
-    protected Button backButton;
+    @FXML private Button sendNotificationButton;
+    @FXML private Button backButton;
 
     @FXML
     private void SendNotification(ActionEvent event) {

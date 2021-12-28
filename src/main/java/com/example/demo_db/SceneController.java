@@ -17,18 +17,13 @@ public class SceneController {
     private Scene scene;
     private Parent root;
 
-    @FXML
-    protected Button addEntryButton;
-
-    @FXML
-    protected Button searchEntryButton;
-
-    @FXML
-    protected Button sendNotifyButton;
+    @FXML private Button addEntryButton;
+    @FXML private Button searchEntryButton;
+    @FXML private Button sendNotifyButton;
 
     @FXML
     protected void SwitchToEntryPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("EntryPage.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("entry-page.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
