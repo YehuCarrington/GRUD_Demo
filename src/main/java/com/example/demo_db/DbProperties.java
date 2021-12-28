@@ -5,9 +5,26 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class DbProperties {
-    public String dbDriverClass;
-    public String dbConnUrl;
-    public String dbUserName;
+    private final String dbDriverClass;
+    private final String dbConnUrl;
+    private final String dbUserName;
+
+    public String getDbDriverClass() {
+        return dbDriverClass;
+    }
+
+    public String getDbConnUrl() {
+        return dbConnUrl;
+    }
+
+    public String getDbUserName() {
+        return dbUserName;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
+    }
+
     public String dbPassword;
 
     //Just to protect info, more of a test
