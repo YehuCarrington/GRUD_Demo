@@ -18,13 +18,13 @@ public class SceneController {
     private Parent root;
 
     @FXML
-    public Button addEntryButton;
+    protected Button addEntryButton;
 
     @FXML
-    public Button searchEntryButton;
+    protected Button searchEntryButton;
 
     @FXML
-    public Button sendNotifyButton;
+    protected Button sendNotifyButton;
 
     @FXML
     protected void SwitchToEntryPage(ActionEvent event) throws IOException {
@@ -46,20 +46,11 @@ public class SceneController {
 
     @FXML
     protected void SwitchToSearchPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SearchPage.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("search-page.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    protected void SwitchToMain(ActionEvent event) throws IOException {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
     }
 
 }
