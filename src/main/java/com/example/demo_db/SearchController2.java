@@ -2,10 +2,13 @@ package com.example.demo_db;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -14,17 +17,30 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class SearchController2 implements Initializable {
-    @FXML private TableView<ProjectSearchModel> dbTableView;
-    @FXML private TableColumn<ProjectSearchModel, String> projectColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> itemTitleColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> summaryColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> descriptionColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> responsibilityColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> createdByColumn;
-    @FXML private TableColumn<ProjectSearchModel, Date> createdDateColumn;
-    @FXML private TableColumn<ProjectSearchModel, Date> dueDateColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> emailColumn;
-    @FXML private TableColumn<ProjectSearchModel, String> statusColumn;
+    @FXML
+    private TableView<ProjectSearchModel> dbTableView;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> projectColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> itemTitleColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> summaryColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> descriptionColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> responsibilityColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> createdByColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, Date> createdDateColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, Date> dueDateColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> emailColumn;
+    @FXML
+    private TableColumn<ProjectSearchModel, String> statusColumn;
+    @FXML
+    private TextField keywordTextField;
 
     ObservableList<ProjectSearchModel> projectSearchModelObservableList = FXCollections.observableArrayList();
 
@@ -33,7 +49,7 @@ public class SearchController2 implements Initializable {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -43,7 +59,7 @@ public class SearchController2 implements Initializable {
             Statement stmt = conn.createStatement();
             ResultSet queryOutput = stmt.executeQuery(SQL);
 
-            while(queryOutput.next()){
+            while (queryOutput.next()) {
 
                 String queryProjectName = queryOutput.getString("project_name");
                 String queryItemTitle = queryOutput.getString("item_title");
@@ -57,9 +73,9 @@ public class SearchController2 implements Initializable {
                 String queryStatus = queryOutput.getString("stat");
 
                 projectSearchModelObservableList.add(new ProjectSearchModel(queryProjectName, queryItemTitle,
-                                                                            querySummary, queryDescription, queryResponsibility,
-                                                                            queryCreatedBy, queryCreatedDate, queryDueDate, queryEmail,
-                                                                            queryStatus));
+                        querySummary, queryDescription, queryResponsibility,
+                        queryCreatedBy, queryCreatedDate, queryDueDate, queryEmail,
+                        queryStatus));
             }
 
             projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
@@ -75,7 +91,47 @@ public class SearchController2 implements Initializable {
 
             dbTableView.setItems(projectSearchModelObservableList);
 
-        } catch (SQLException | IOException e) {
+            FilteredList<ProjectSearchModel> filteredData = new FilteredList<>(projectSearchModelObservableList, b -> true);
+
+            keywordTextField.textProperty().addListener((Observable, oldValue, newValue) -> filteredData.setPredicate(projectSearchModel -> {
+
+                if (newValue.isEmpty() || newValue.isBlank()) {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+
+                if (projectSearchModel.getProjectName().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getItemTitle().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getSummary().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getDescription().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getResponsibility().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getCreatedBy().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getCreatedDate().toString().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getDueDate().toString().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getEmails().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else if (projectSearchModel.getStatus().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                } else
+                    return false;
+            }));
+
+            SortedList<ProjectSearchModel> sortedData = new SortedList<>(filteredData);
+
+            sortedData.comparatorProperty().bind(dbTableView.comparatorProperty());
+            dbTableView.setItems(sortedData);
+
+        } catch (SQLException |
+                IOException e) {
             e.printStackTrace();
         }
 
