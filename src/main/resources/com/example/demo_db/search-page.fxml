@@ -12,7 +12,7 @@
                 text="Search"/>
         <Button fx:id="backButton" layoutX="318.0" layoutY="188.0" mnemonicParsing="false" onAction="#SwitchToMain"
                 text="Go Back"/>
-        <TextField fx:id="projNameTextField" layoutX="273.0" layoutY="47.0" promptText="Project Name"/>
+        <TextField fx:id="inputTextField" layoutX="273.0" layoutY="47.0" promptText="Enter Attribute"/>
         <Text layoutX="273.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0"
               text="From the drop down menu&#10;choose an attribute&#10;Then enter into the text field&#10;your query"
               textAlignment="CENTER">

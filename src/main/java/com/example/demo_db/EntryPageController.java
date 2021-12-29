@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EntryPageController extends SceneController implements Initializable {
@@ -35,43 +36,43 @@ public class EntryPageController extends SceneController implements Initializabl
     // I don't know much about how to pool connections *
     @FXML
     protected void submitButtonClick() throws IOException {
-        DbProperties dbProps = new DbProperties();
-
-
+        PreparedStatement pstmt = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        try {
+        try (Connection conn = DbConnector.getConnection()) {
             //(1) a connection to the db is created
-            Connection conn = DriverManager.getConnection(dbProps.getDbConnUrl(), dbProps.getDbUserName(), dbProps.getDbPassword());
             String SQL = "INSERT INTO data_entry (project_name, item_title, item_sum, item_des, item_resp, created_by" +
                     ", created_date, due_date, notif_email, stat) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
 
             //(2) the values written to the Fields are stored into the DB
-            pstmt.setString(1,projectNameTextField.getText());
-            pstmt.setString(2,itemTitleTextField.getText());
-            pstmt.setString(3,summaryTextArea.getText());
-            pstmt.setString(4,descriptionTextArea.getText());
-            pstmt.setString(5,responsibilityTextField.getText());
-            pstmt.setString(6,createdByTextField.getText());
+            pstmt.setString(1, projectNameTextField.getText());
+            pstmt.setString(2, itemTitleTextField.getText());
+            pstmt.setString(3, summaryTextArea.getText());
+            pstmt.setString(4, descriptionTextArea.getText());
+            pstmt.setString(5, responsibilityTextField.getText());
+            pstmt.setString(6, createdByTextField.getText());
             pstmt.setDate(7, Date.valueOf(createdDatePicker.getValue()));
             pstmt.setDate(8, Date.valueOf(dueDatePicker.getValue()));
-            pstmt.setString(9,emailTextArea.getText());
+            pstmt.setString(9, emailTextArea.getText());
             pstmt.setInt(10, convertChoice(statusChoiceBox.getValue()));
 
-            if(pstmt.executeUpdate()>0){
+            if (pstmt.executeUpdate() > 0) {
                 System.out.println("Records Updated Successfully");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                //(3) the connection is closed
+                assert pstmt != null;
+                pstmt.close();
+            } catch (Exception ignored) {
+            }
         }
-
-
     }
 
     @FXML
@@ -96,7 +97,11 @@ public class EntryPageController extends SceneController implements Initializabl
     }
 
     private int convertChoice(String choice) throws NumberFormatException {
-        switch(choice){
+        if(choice == null){
+            System.out.println("Must have a status");
+            return 101;
+        }
+        switch(Objects.requireNonNull(choice)){
             case "Open" -> {
                 return 1;
             }
@@ -109,8 +114,9 @@ public class EntryPageController extends SceneController implements Initializabl
             case "Closed" -> {
                 return 4;
             }
-
+            default -> {
+                return 101;
+            }
         }
-        return 100;
     }
 }
