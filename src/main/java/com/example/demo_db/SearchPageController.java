@@ -3,12 +3,16 @@ package com.example.demo_db;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SearchPageController extends SceneController implements Initializable {
@@ -30,7 +34,7 @@ public class SearchPageController extends SceneController implements Initializab
         }
         try (Connection conn = DbConnector.getConnection()){
 
-            String SQL1 = "SELECT project_name, item_title, item_resp, due_date, stat FROM data_entry WHERE project_name=?";
+            String SQL1 = "SELECT project_name, item_title, item_sum, item_des, item_resp, created_by, created_date, due_date, notif_email, stat FROM data_entry";
             String SQL2 = "SELECT project_name, item_title, item_resp, due_date, stat FROM data_entry WHERE item_title=?";
             String SQL3 = "SELECT project_name, item_title, item_resp, due_date, stat FROM data_entry WHERE item_resp=?";
             String SQL4 = "SELECT project_name, item_title, item_resp, due_date, stat FROM data_entry WHERE due_date=?";
@@ -38,34 +42,60 @@ public class SearchPageController extends SceneController implements Initializab
 
             switch(choice){
                 case "Project Name" -> {
-                    pstmt = conn.prepareStatement(SQL1);
-                    pstmt.setString(1,inputTextField.getText());
-                    rs = pstmt.executeQuery();
+                    if (inputTextField.getText().isEmpty()) {
+                        ErrorMsgEmptyTxt();
+                    } else {
+                        pstmt = conn.prepareStatement(SQL1);
+                        pstmt.setString(1, inputTextField.getText());
+                        rs = pstmt.executeQuery();
+                    }
                 }
                 case "Item Title" -> {
-                    pstmt = conn.prepareStatement(SQL2);
-                    pstmt.setString(1,inputTextField.getText());
-                    rs = pstmt.executeQuery();
+                    if (inputTextField.getText().isEmpty()) {
+                        ErrorMsgEmptyTxt();
+                    } else {
+                        pstmt = conn.prepareStatement(SQL2);
+                        pstmt.setString(1, inputTextField.getText());
+                        rs = pstmt.executeQuery();
+                    }
                 }
                 case "Item Responsibility" -> {
-                    pstmt = conn.prepareStatement(SQL3);
-                    pstmt.setString(1,inputTextField.getText());
-                    rs = pstmt.executeQuery();
+                    if (inputTextField.getText().isEmpty()) {
+                        ErrorMsgEmptyTxt();
+                    } else {
+                        pstmt = conn.prepareStatement(SQL3);
+                        pstmt.setString(1, inputTextField.getText());
+                        rs = pstmt.executeQuery();
+                    };
                 }
                 case "Due Date" -> {
-                    pstmt = conn.prepareStatement(SQL4);
-                    pstmt.setString(1,inputTextField.getText());
-                    rs = pstmt.executeQuery();
+                    if (inputTextField.getText().isEmpty()) {
+                        ErrorMsgEmptyTxt();
+                    } else {
+                        pstmt = conn.prepareStatement(SQL4);
+                        pstmt.setString(1, inputTextField.getText());
+                        rs = pstmt.executeQuery();
+                    }
                 }
                 case "Status" -> {
-                    pstmt = conn.prepareStatement(SQL5);
-                    pstmt.setString(1,inputTextField.getText());
-                    rs = pstmt.executeQuery();
+                    if (inputTextField.getText().isEmpty()) {
+                        ErrorMsgEmptyTxt();
+                    } else {
+                        pstmt = conn.prepareStatement(SQL5);
+                        pstmt.setString(1, inputTextField.getText());
+                        rs = pstmt.executeQuery();
+                    }
                 }
             }
 
 
         }
+    }
+
+    private void ErrorMsgEmptyTxt (){
+        Alert err = new Alert(Alert.AlertType.ERROR);
+        err.setContentText("Enter a value to search");
+        err.show();
     }
 
     @Override
