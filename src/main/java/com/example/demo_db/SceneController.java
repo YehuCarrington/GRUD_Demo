@@ -6,20 +6,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class SceneController {
+
+    //This is used to switch the search function between two different implementations
+    boolean MYWAY = true;
+
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-    @FXML private Button addEntryButton;
-    @FXML private Button searchEntryButton;
-    @FXML private Button sendNotifyButton;
 
     @FXML
     protected void SwitchToEntryPage(ActionEvent event) throws IOException {
@@ -41,7 +40,11 @@ public class SceneController {
 
     @FXML
     protected void SwitchToSearchPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("search-page2.fxml")));
+        if (MYWAY) {
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("search-page.fxml")));
+        } else {
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("search-page2.fxml")));
+        }
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

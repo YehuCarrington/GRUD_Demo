@@ -16,7 +16,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class SearchController2 implements Initializable {
+public class SearchController2 extends SceneController implements Initializable {
     @FXML
     private TableView<ProjectSearchModel> dbTableView;
     @FXML

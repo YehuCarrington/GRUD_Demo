@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -32,7 +31,9 @@
                 <Font size="18.0"/>
             </font>
         </Label>
-        <TextField fx:id="keywordTextField" layoutX="166.0" layoutY="35.0" prefHeight="25.0" prefWidth="819.0"
+        <TextField fx:id="keywordTextField" layoutX="166.0" layoutY="35.0" prefHeight="25.0" prefWidth="729.0"
                    promptText="Keywords"/>
+        <Button fx:id="backButton" layoutX="908.0" layoutY="35.0" mnemonicParsing="false"
+                onAction="#SwitchToMain" prefHeight="25.0" prefWidth="78.0" text="Go Back"/>
     </children>
 </Pane>
