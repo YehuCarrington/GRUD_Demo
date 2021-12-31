@@ -8,6 +8,7 @@ public class DbProperties {
     private final String dbDriverClass;
     private final String dbConnUrl;
     private final String dbUserName;
+    private final String dbPassword;
 
     public String getDbDriverClass() {
         return dbDriverClass;
@@ -24,8 +25,6 @@ public class DbProperties {
     public String getDbPassword() {
         return dbPassword;
     }
-
-    public String dbPassword;
 
     //Just to protect info, more of a test
     //Since this database does not leave the local

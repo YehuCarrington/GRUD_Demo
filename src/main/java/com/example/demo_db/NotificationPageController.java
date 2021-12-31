@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Arrays;
 
 public class NotificationPageController extends SceneController {
 
