@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class DbConnector {
     public static Connection getConnection() throws IOException, SQLException {
         DbProperties dbProps = new DbProperties();
+
         return DriverManager.getConnection(dbProps.getDbConnUrl(), dbProps.getDbUserName(), dbProps.getDbPassword());
     }
 }

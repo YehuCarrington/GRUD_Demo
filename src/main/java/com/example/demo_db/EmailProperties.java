@@ -1,13 +1,21 @@
 package com.example.demo_db;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class EmailProperties {
+public class EmailProperties extends Properties {
+
     private final String emailUserName;
     private final String emailPassword;
+
+    public String getEmailUserName() {
+        return emailUserName;
+    }
+
+    public String getEmailPassword() {
+        return emailPassword;
+    }
 
     EmailProperties() throws IOException {
         Properties props = new Properties();
